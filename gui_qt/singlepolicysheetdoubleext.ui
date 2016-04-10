@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SinglePolicySheetDoubleExt</class>
+ <widget class="QWidget" name="SinglePolicySheetDoubleExt">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_policy_name">
+     <property name="text">
+      <string>Policy Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="4">
+    <widget class="QLineEdit" name="lineEdit_policy_name"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_elements">
+     <property name="text">
+      <string>Elements</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="4">
+    <widget class="QPushButton" name="pushButton_exportfile">
+     <property name="text">
+      <string>&amp;Export on File</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="4">
+    <widget class="QLineEdit" name="lineEdit_appliesto">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="4">
+    <widget class="QTextEdit" name="textEdit_ext1"/>
+   </item>
+   <item row="2" column="1" colspan="4">
+    <widget class="QTextEdit" name="textEdit_ext2"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_appliesto">
+     <property name="text">
+      <string>Applies to</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QPushButton" name="pushButton_apply">
+     <property name="text">
+      <string>&amp;Apply</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>165</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>lineEdit_policy_name</tabstop>
+  <tabstop>textEdit_ext1</tabstop>
+  <tabstop>textEdit_ext2</tabstop>
+  <tabstop>lineEdit_appliesto</tabstop>
+  <tabstop>pushButton_apply</tabstop>
+  <tabstop>pushButton_exportfile</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
