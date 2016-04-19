@@ -12,7 +12,6 @@ set(HEADER_FILES
 	registry.hpp
 
 	# RAII support for windows types
-	unique_handle.hpp
 	win_handles.hpp
 
 	# common

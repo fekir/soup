@@ -17,9 +17,6 @@
 
 #pragma once
 
-// local
-#include "unique_handle.hpp"
-
 // windows
 #include <Windows.h>
 #include <Winuser.h>
@@ -29,8 +26,12 @@
 // cstd
 #include <cassert>
 
+// std
+#include <memory>
+
 namespace details{
 	struct sKeyDeleter {
+		typedef HKEY pointer;
 		void operator()(const HKEY& hkey) const noexcept {
 			const auto res = ::RegCloseKey(hkey); (void)res; assert(res == ERROR_SUCCESS);
 		}
@@ -44,30 +45,35 @@ namespace details{
 	};
 
 	struct sCloseHandle{
+		typedef HANDLE pointer;
 		void operator()(const HANDLE& h) const noexcept {
 			const auto res = ::CloseHandle(h); (void)res; assert(res != 0);
 		}
 	};
 
 	struct sFreeLibrary{
+		typedef HMODULE pointer;
 		void operator()(const HMODULE& h) const noexcept {
 			const auto res = ::FreeLibrary(h); (void)res; assert(res != 0);
 		}
 	};
 #ifndef NOUSER
 	struct sCloseDesktop{
+		typedef HDESK pointer;
 		void operator()(const HDESK& h) const noexcept {
 			const auto res = ::CloseDesktop(h); (void)res; assert(res != 0);
 		}
 	};
 	struct sCloseWindowStation{
+		typedef HWINSTA pointer;
 		void operator()(const HWINSTA& h) const noexcept {
 			const auto res = ::CloseWindowStation(h); (void)res; assert(res != 0);
 		}
 	};
 
 	struct sDestroyIcon {
-		void operator()(const HICON & h) const noexcept {
+		typedef HICON pointer;
+		void operator()(const HICON& h) const noexcept {
 			const auto res = ::DestroyIcon(h); (void)res; assert(res != 0);
 		}
 	} ;
@@ -78,6 +84,7 @@ namespace details{
 		PROFILEINFOW Profile;
 	};
 	struct sUnloadUserProfile {
+		typedef TokenAndProfile pointer;
 		void operator()(const TokenAndProfile& h) const noexcept {
 			const auto res = ::UnloadUserProfile(h.Token, h.Profile.hProfile); (void)res; assert(res == TRUE);
 		}
@@ -85,6 +92,7 @@ namespace details{
 
 #if (WINVER >= _WIN32_WINNT_VISTA)
 	struct sCloseEvent {
+		typedef EVT_HANDLE pointer;
 		void operator()(const EVT_HANDLE& h) const noexcept {
 			const auto res = ::EvtClose(h); (void)res; assert(res == TRUE);
 		}
@@ -93,22 +101,23 @@ namespace details{
 
 }
 
+using RAII_HANDLE      = std::unique_ptr<HANDLE,     details::sCloseHandle>;
 
-using RAII_HANDLE      = unique_handle2<HANDLE,     details::sCloseHandle>;
-using RAII_HINSTANCE   = unique_handle2<HINSTANCE,  details::sFreeLibrary>;
-using RAII_HKEY        = unique_handle2<HKEY,       details::sKeyDeleter>;
-using RAII_LOADHKEY    = unique_handle2<HKEY,       details::sKeyUnloader>;
-using RAII_HMODULE     = unique_handle2<HMODULE,    details::sFreeLibrary>;
+
+using RAII_HINSTANCE   = std::unique_ptr<HINSTANCE,  details::sFreeLibrary>;
+using RAII_HKEY        = std::unique_ptr<HKEY,       details::sKeyDeleter>;
+using RAII_LOADHKEY    = std::unique_ptr<HKEY,       details::sKeyUnloader>;
+using RAII_HMODULE     = std::unique_ptr<HMODULE,    details::sFreeLibrary>;
 
 #if (WINVER >= _WIN32_WINNT_VISTA)
-using RAII_EVTHANDLE   = unique_handle1<EVT_HANDLE, details::sCloseEvent, nullptr>;
+using RAII_EVTHANDLE   = std::unique_ptr<EVT_HANDLE, details::sCloseEvent>;
 #endif
 
 #ifndef NOUSER
-using RAII_HDESKTOP    = unique_handle2<HDESK,      details::sCloseDesktop>;
-using RAII_HWINSTA     = unique_handle2<HWINSTA,    details::sCloseWindowStation>;
-using RAII_HICON       = unique_handle2<HICON,      details::sDestroyIcon>;
-using RAII_UserProfile = unique_handle2<details::TokenAndProfile, details::sDestroyIcon>;
+using RAII_HDESKTOP    = std::unique_ptr<HDESK,      details::sCloseDesktop>;
+using RAII_HWINSTA     = std::unique_ptr<HWINSTA,    details::sCloseWindowStation>;
+using RAII_HICON       = std::unique_ptr<HICON,      details::sDestroyIcon>;
+using RAII_UserProfile = std::unique_ptr<details::TokenAndProfile, details::sDestroyIcon>;
 #endif
 
 
