@@ -1,4 +1,7 @@
 #include <winresrc.h>
+// adding manifest here since cmake/mingw doesn't support .manifest files
+#include "winuser.h"
+1 RT_MANIFEST compatibility.manifest
 
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION     @SOUP_MAJOR_NUMBER@,@SOUP_MINOR_NUMBER@,@SOUP_BUILD_NUMBER@,@SOUP_REVISION_NUMBER@

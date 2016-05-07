@@ -38,6 +38,10 @@ configure_file(
 	"${PROJECT_SOURCE_DIR}/res/info.in.rc" "${PROJECT_BINARY_DIR}/res/info.rc"
 )
 
+configure_file(
+	"${PROJECT_SOURCE_DIR}/res/compatibility.manifest" "${PROJECT_BINARY_DIR}/res/compatibility.manifest"
+)
+
 set(WIN_LIBRARIES_TO_LINK
 	Rpcrt4 KtmW32 wevtapi
 )
