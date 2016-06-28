@@ -74,9 +74,9 @@ namespace evtlog{
 		}
 		const size_t MAX_NAME_LENGTH = 256; // FIXME: handle error if name is not long enough(?)
 		std::wstring name(MAX_NAME_LENGTH, L'\1');
-		DWORD size = name.size();
+		DWORD size = static_cast<DWORD>(name.size());
 		std::wstring name2(MAX_NAME_LENGTH, L'\1');
-		DWORD size2 = name2.size();
+		DWORD size2 = static_cast<DWORD>(name2.size());
 		SID_NAME_USE usename;
 		if(LookupAccountSidW(nullptr, psid, &name.at(0), &size, &name2.at(0), &size2, &usename ) == 0){
 			return{};
@@ -117,7 +117,7 @@ namespace evtlog{
 		DWORD dwBufferUsed = 0;
 		std::wstring renderedContent(getRequiredSize_XML(hEvent), L'\0');
 
-		if (!EvtRender(nullptr, hEvent, EvtRenderEventXml, renderedContent.size() * sizeof(wchar_t), &renderedContent.at(0), &dwBufferUsed, nullptr)) {
+		if (!EvtRender(nullptr, hEvent, EvtRenderEventXml, static_cast<DWORD>(renderedContent.size()) * sizeof(wchar_t), &renderedContent.at(0), &dwBufferUsed, nullptr)) {
 			const DWORD status = GetLastError(); assert(ERROR_INSUFFICIENT_BUFFER != status);
 			throw std::runtime_error("unexpected error while querying message:" + std::to_string(status));
 		}
