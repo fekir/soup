@@ -28,6 +28,7 @@
 
 // std
 #include <memory>
+#include <string>
 
 namespace details{
 	struct sKeyDeleter {
